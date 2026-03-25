@@ -1,6 +1,5 @@
 #ifndef CSOMMET_H
 #define CSOMMET_H
-#pragma once
 
 #include <vector>
 #include <iostream>
