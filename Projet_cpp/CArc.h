@@ -1,9 +1,9 @@
 #ifndef CARC_H
 #define CARC_H
 /***************************************************************
-* CLASSE : CException
+* CLASSE : CArc
 * **************************************************************
-* ROLE : Cette classe va permettre de lever des exceptions.
+* ROLE : Cette classe va permettre de créer un objet Arc de graphes 
 * **************************************************************
 * VERSION : 1.0
 * AUTEUR : Rebson & Leo
@@ -27,7 +27,7 @@ using namespace std;
 class CArc
 {
 	// ATTRIBUTS
-private:
+protected:
 	int iARCSommetDepart;
 	int iARCSommetArrivee;
 
@@ -43,7 +43,7 @@ public:
 	* **************************************************************
 	* Entrée : Rien
 	* Nécessite : Rien
-	* Sortie : La valeur de du sommet de départ de l'arc
+	* Sortie : La valeur du sommet de départ de l'arc
 	* Entraine : rien
 	* **************************************************************/
 	int ARCGetSommetDepart() const { return iARCSommetDepart; };
@@ -53,7 +53,7 @@ public:
 	* **************************************************************
 	* Entrée : Rien
 	* Nécessite : Rien
-	* Sortie : La valeur de du sommet d'arrivée de l'arc
+	* Sortie : La valeur du sommet d'arrivée de l'arc
 	* Entraine : rien
 	* **************************************************************/
 	int ARCGetSommetArrivee() const { return iARCSommetArrivee; };
@@ -61,7 +61,7 @@ public:
 	/* *************************************************************
 	* ARCGetSommetDepart
 	* **************************************************************
-	* Entrée : La nouvelle valeur de du sommet de départ de l'arc
+	* Entrée : La nouvelle valeur du sommet de départ de l'arc
 	* Nécessite : Rien 
 	* Sortie : Rien
 	* Entraine : La modification des la valeur du sommet de départ
@@ -71,7 +71,7 @@ public:
 	/* *************************************************************
 	* ARCGetSommetArrivee
 	* **************************************************************
-	* Entrée : La nouvelle valeur de du sommet d'arrivée de l'arc
+	* Entrée : La nouvelle valeur du sommet d'arrivée de l'arc
 	* Nécessite : Rien
 	* Sortie : Rien
 	* Entraine : La modification des la valeur du sommet d'arrivée
