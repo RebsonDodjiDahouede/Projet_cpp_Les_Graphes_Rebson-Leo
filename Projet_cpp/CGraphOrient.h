@@ -34,6 +34,10 @@ template<typename TSommet, typename TArc>
 class CGraphOrient
 {
 	// ATTRIBUTS
+	static_assert(is_base_of<CSommet, TSommet>::value,
+		"TSommet doit hérité de CSommet");
+	static_assert(is_base_of<CArc, TArc>::value,
+		"TArc doit hérité de CArc");
 protected:
 	map<int, TSommet*> mipSOMGROListeSommets;
 	vector<TArc*> vpARCGROListeArcs;
