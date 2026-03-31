@@ -64,6 +64,16 @@ public:
 	* Sortie : Rien
 	* Entraine : Lance une exception si la valeur est déjà présente
 	* **************************************************************/
+	TSommet* GROGetSommet(int iNum) const throw(CException);
+
+	/* *************************************************************
+	* GROAjouterSommet
+	* **************************************************************
+	* Entrée : Entier
+	* Nécessite : Rien
+	* Sortie : Rien
+	* Entraine : Lance une exception si la valeur est déjà présente
+	* **************************************************************/
 	void GROAjouterSommet(int iNum) throw(CException);
 
 	/* *************************************************************
@@ -88,6 +98,13 @@ public:
 
 };
 #endif //CGRAPHORIENT_H
+
+template<typename TSommet, typename TArc>
+inline TSommet* CGraphOrient<TSommet, TArc>::GROGetSommet(int iNum) const
+{
+	auto it = mipSOMGROListeSommets.find(iNum);
+	return (it != mipSOMGROListeSommets.end()) ? it->second : nullptr;
+}
 
 template<typename TSommet, typename TArc>
 inline void CGraphOrient<TSommet, TArc>::GROAjouterSommet(int iNum) throw (CException)
@@ -126,9 +143,22 @@ inline void CGraphOrient<TSommet, TArc>::GROSupprimerSommet(int iNum) throw(CExc
 
 	while (itArc != vpARCGROListeArcs.end()) {
 		TArc* pArc = *itArc;
-		if (pArc->ARCGetSommetDepart() )
+		if (pArc->ARCGetSommetDepart() == iNum || pArc->ARCGetSommetArrivee() == iNum) {
+
+			TSommet* pSommetDepart = mipSOMGROListeSommets[pArc->ARCGetSommetDepart()];
+			TSommet* pSommetArrive = mipSOMGROListeSommets[pArc->ARCGetSommetArrivee()];
+
+			pSommetDepart->SOMSupprimerArcSortant();
+			pSommetArrive->SOMSupprimerArcArrivant();
+
+			delete pArc;
+			itArc = vpARCGROListeArcs.erase(itArc);
+		}
+		else {
+			itArc++;
+		}
 	}
 
-
-
+	delete sommetASupprimer;
+	mipSOMGROListeSommets.erase(itSommet)
 }
