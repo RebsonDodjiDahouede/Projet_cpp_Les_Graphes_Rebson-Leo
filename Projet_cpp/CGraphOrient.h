@@ -1,5 +1,130 @@
-#pragma once
+#ifndef CGRAPHORIENT_H
+#define CGRAPHORIENT_H
+/***************************************************************
+* CLASSE : CSommet
+* **************************************************************
+* ROLE : Cette classe va permettre de créer un objet Sommet de graphes
+* **************************************************************
+* VERSION : 1.0
+* AUTEUR : Rebson & Leo
+* DATE : 25/03/2026
+* **************************************************************
+* INCLUSIONS EXTERNES :
+*/
+#include <map>
+#include <vector>
+#include <iostream>
+#include "CSommet.h"
+#include "CArc.h"
+
+/* std -> pour utiliser le stdout */
+using namespace std;
+
+/* TYPES :
+*   Pas de type particulier de déclaré
+*/
+
+/* Variables :
+*   Pas de Variable globale de déclaré
+*/
+#define VALEUR_DEJA_PRESENTE 2
+#define VALEUR_ABSENTE 3
+
+template<typename TSommet, typename TArc>
 class CGraphOrient
 {
-};
+	// ATTRIBUTS
+protected:
+	map<int, TSommet*> mipSOMGROListeSommets;
+	vector<TArc*> vpARCGROListeArcs;
 
+public:
+
+	// CONSTRUCTEURS
+	CGraphOrient() = default;
+	virtual ~CGraphOrient() {
+		for (TArc* arc : vpARCGROListeArcs) {
+			delete arc;
+		}
+		for (TSommet sommet : mipSOMGROListeSommets) {
+			delete sommet;
+		}
+	};
+
+	// MÉTHODES
+	/* *************************************************************
+	* GROAjouterSommet
+	* **************************************************************
+	* Entrée : Entier
+	* Nécessite : Rien
+	* Sortie : Rien
+	* Entraine : Lance une exception si la valeur est déjà présente
+	* **************************************************************/
+	void GROAjouterSommet(int iNum) throw(CException);
+
+	/* *************************************************************
+	* GROModifierSommet
+	* **************************************************************
+	* Entrée : Entier
+	* Nécessite : Rien
+	* Sortie : Rien
+	* Entraine : Lance une exception si la valeur est déjà présente
+	* **************************************************************/
+	void GROModifierSommet(int iNewNum) throw(CException);
+
+	/* *************************************************************
+	* GROSupprimerSommet
+	* **************************************************************
+	* Entrée : Entier
+	* Nécessite : Rien
+	* Sortie : Rien
+	* Entraine : Lance une exception si la valeur est absente
+	* **************************************************************/
+	void GROSupprimerSommet(int iNum) throw(CException);
+
+};
+#endif //CGRAPHORIENT_H
+
+template<typename TSommet, typename TArc>
+inline void CGraphOrient<TSommet, TArc>::GROAjouterSommet(int iNum) throw (CException)
+{
+	if (mipSOMGROListeSommets.find(iNum) != mipSOMGROListeSommets.end()) {
+		CException except;
+		except.EXCModifier(VALEUR_DEJA_PRESENTE);
+		throw(except);
+		
+	}
+	TSommet* pSommetAAjouter = new TSommet(iNum);
+	mipSOMGROListeSommets[iNum] = pSommetAAjouter;
+}
+
+template<typename TSommet, typename TArc>
+inline void CGraphOrient<TSommet, TArc>::GROModifierSommet(int iNewNum) throw(CException)
+{
+	if (mipSOMGROListeSommets.find(iNum) != mipSOMGROListeSommets.end()) {
+		CException except;
+		except.EXCModifier(VALEUR_DEJA_PRESENTE);
+		throw(except);
+	}
+}
+
+template<typename TSommet, typename TArc>
+inline void CGraphOrient<TSommet, TArc>::GROSupprimerSommet(int iNum) throw(CException)
+{
+	auto itSommet = mipSOMGROListeSommets.find(iNum);
+	if (sommetASupprimer == mipSOMGROListeSommets.end()) {
+		CException except;
+		except.EXCModifier(VALEUR_DEJA_PRESENTE);
+		throw(except);
+	}
+	TSommet* sommetASupprimer = itSommet->second;
+	auto itArc = vpARCGROListeArcs.begin();
+
+	while (itArc != vpARCGROListeArcs.end()) {
+		TArc* pArc = *itArc;
+		if (pArc->ARCGetSommetDepart() )
+	}
+
+
+
+}
