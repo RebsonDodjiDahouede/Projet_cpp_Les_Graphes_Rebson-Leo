@@ -3,7 +3,7 @@
 /***************************************************************
 * CLASSE : CSommet
 * **************************************************************
-* ROLE : Cette classe va permettre de créer un objet Sommet de graphes
+* ROLE : Cette classe va permettre de créer un objet Graphe orienté
 * **************************************************************
 * VERSION : 1.0
 * AUTEUR : Rebson & Leo
@@ -96,6 +96,17 @@ public:
 	* **************************************************************/
 	void GROSupprimerSommet(int iNum) throw(CException);
 
+	/* *************************************************************
+	* GROAfficher
+	* **************************************************************
+	* Entrée : Rien
+	* Nécessite : Rien
+	* Sortie : Rien
+	* Entraine : Rien
+	* **************************************************************/
+	virtual void GROAfficher(ostream& os = cout) const;
+
+
 };
 #endif //CGRAPHORIENT_H
 
@@ -133,9 +144,9 @@ template<typename TSommet, typename TArc>
 inline void CGraphOrient<TSommet, TArc>::GROSupprimerSommet(int iNum) throw(CException)
 {
 	auto itSommet = mipSOMGROListeSommets.find(iNum);
-	if (sommetASupprimer == mipSOMGROListeSommets.end()) {
+	if (itSommet == mipSOMGROListeSommets.end()) {
 		CException except;
-		except.EXCModifier(VALEUR_DEJA_PRESENTE);
+		except.EXCModifier(VALEUR_ABSENTE);
 		throw(except);
 	}
 	TSommet* sommetASupprimer = itSommet->second;
@@ -148,8 +159,8 @@ inline void CGraphOrient<TSommet, TArc>::GROSupprimerSommet(int iNum) throw(CExc
 			TSommet* pSommetDepart = mipSOMGROListeSommets[pArc->ARCGetSommetDepart()];
 			TSommet* pSommetArrive = mipSOMGROListeSommets[pArc->ARCGetSommetArrivee()];
 
-			pSommetDepart->SOMSupprimerArcSortant();
-			pSommetArrive->SOMSupprimerArcArrivant();
+			pSommetDepart->SOMSupprimerArcSortant(pArc);
+			pSommetArrive->SOMSupprimerArcArrivant(pArc);
 
 			delete pArc;
 			itArc = vpARCGROListeArcs.erase(itArc);
