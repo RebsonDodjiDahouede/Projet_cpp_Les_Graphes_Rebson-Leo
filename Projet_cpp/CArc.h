@@ -49,7 +49,7 @@ public:
 	int ARCGetSommetDepart() const { return iARCSommetDepart; };
 
 	/* *************************************************************
-	* ARCGetSommetArrivée
+	* ARCGetSommetArrivé
 	* **************************************************************
 	* Entrée : Rien
 	* Nécessite : Rien

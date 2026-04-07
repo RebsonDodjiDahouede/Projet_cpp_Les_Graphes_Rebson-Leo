@@ -173,3 +173,17 @@ inline void CGraphOrient<TSommet, TArc>::GROSupprimerSommet(int iNum) throw(CExc
 	delete sommetASupprimer;
 	mipSOMGROListeSommets.erase(itSommet)
 }
+
+template<typename TSommet, typename TArc>
+inline void CGraphOrient<TSommet, TArc>::GROAfficher(ostream& os) const
+{
+	os << "Sommets :\n";
+	for (const auto& pair : mipSOMGROListeSommets) {
+		os << "	Sommet " << pair.first << "\n";
+	}
+	os << "Arcs: \n";
+	for (const TArc* pArc : vpARCGROListeArcs) {
+		os << "	" << pArc->ARCGetSommetDepart()
+			<< " -> " << pArc->ARCGetSommetArrivee() << "\n";
+	}
+}
