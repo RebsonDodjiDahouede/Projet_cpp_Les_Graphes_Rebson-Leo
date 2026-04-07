@@ -106,7 +106,25 @@ public:
 	* **************************************************************/
 	virtual void GROAfficher(ostream& os = cout) const;
 
+	/* *************************************************************
+	* GROGetArcs
+	* **************************************************************
+	* Entrée : Rien
+	* Nécessite : Rien
+	* Sortie : Le vecteur contenant les pointeurs vers les arcs du graphe
+	* Entraine : Rien
+	* **************************************************************/
+	vector<Tarc*>& GROGetArcs() const { return vpARCGROListeArcs; };
 
+	/* *************************************************************
+	* GROGetSommets
+	* **************************************************************
+	* Entrée : Rien
+	* Nécessite : Rien
+	* Sortie : Le dictionnaire contenant les sommets du graphe
+	* Entraine : Rien
+	* **************************************************************/
+	map<int, TSommet*>& GROGetSommets() const { return mipSOMGROListeSommets; };
 };
 #endif //CGRAPHORIENT_H
 
