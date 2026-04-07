@@ -114,7 +114,7 @@ public:
 	* Sortie : Le vecteur contenant les pointeurs vers les arcs du graphe
 	* Entraine : Rien
 	* **************************************************************/
-	vector<Tarc*>& GROGetArcs() const { return vpARCGROListeArcs; };
+	vector<TArc*>& GROGetArcs() const { return vpARCGROListeArcs; };
 
 	/* *************************************************************
 	* GROGetSommets
