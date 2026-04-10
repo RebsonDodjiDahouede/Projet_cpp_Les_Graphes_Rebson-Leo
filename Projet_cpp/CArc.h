@@ -35,7 +35,7 @@ protected:
 public:
 	CArc() : iARCSommetArrivee(0), iARCSommetDepart(0) {};
 	CArc(int iSommetDepart, int iSommetArrivee) : iARCSommetDepart(iSommetDepart), iARCSommetArrivee(iSommetArrivee) {};
-	~CArc() = default;
+	virtual ~CArc() = default;
 
 	// MÉTHODES
 	/* *************************************************************
@@ -86,6 +86,6 @@ public:
 	* Sortie : Bool si les attributs sont égaux
 	* Entraine : La modification des la valeur du sommet d'arrivée
 	* **************************************************************/
-	bool operator==(CArc& ARCParam) { return iARCSommetArrivee == ARCParam.iARCSommetArrivee && iARCSommetDepart == ARCParam.iARCSommetDepart; };
+	bool operator==(const CArc& ARCParam) const { return iARCSommetArrivee == ARCParam.iARCSommetArrivee && iARCSommetDepart == ARCParam.iARCSommetDepart; };
 };
 #endif //CARC_H
