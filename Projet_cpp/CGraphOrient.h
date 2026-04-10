@@ -5,7 +5,7 @@
 * **************************************************************
 * ROLE : Cette classe va permettre de créer un objet Graphe orienté
 * **************************************************************
-* VERSION : 1.0
+* VERSION : 1.1
 * AUTEUR : Rebson & Leo
 * DATE : 25/03/2026
 * **************************************************************
@@ -14,8 +14,10 @@
 #include <map>
 #include <vector>
 #include <iostream>
+#include <algorithm>
 #include "CSommet.h"
 #include "CArc.h"
+#include "CException.h"
 
 /* std -> pour utiliser le stdout */
 using namespace std;
@@ -27,8 +29,8 @@ using namespace std;
 /* Variables :
 *   Pas de Variable globale de déclaré
 */
-#define VALEUR_DEJA_PRESENTE 2
-#define VALEUR_ABSENTE 3
+#define GROEXC_SOMMET_DEJA_PRESENTE 2
+#define GROEXC_SOMMET_ABSENT 3
 
 template<typename TSommet, typename TArc>
 class CGraphOrient
@@ -84,7 +86,7 @@ public:
 	* Sortie : Rien
 	* Entraine : Lance une exception si la valeur est déjà présente
 	* **************************************************************/
-	void GROModifierSommet(int iNewNum) throw(CException);
+	void GROModifierSommet(int OldNum, int iNewNum) throw(CException);
 
 	/* *************************************************************
 	* GROSupprimerSommet
@@ -138,24 +140,42 @@ inline TSommet* CGraphOrient<TSommet, TArc>::GROGetSommet(int iNum) const
 template<typename TSommet, typename TArc>
 inline void CGraphOrient<TSommet, TArc>::GROAjouterSommet(int iNum) throw (CException)
 {
-	if (mipSOMGROListeSommets.find(iNum) != mipSOMGROListeSommets.end()) {
+	if (mipSOMGROListeSommets.count(iNum)) {
 		CException except;
-		except.EXCModifier(VALEUR_DEJA_PRESENTE);
+		except.EXCModifier(GROEXC_SOMMET_DEJA_PRESENTE);
 		throw(except);
-		
 	}
 	TSommet* pSommetAAjouter = new TSommet(iNum);
 	mipSOMGROListeSommets[iNum] = pSommetAAjouter;
 }
 
 template<typename TSommet, typename TArc>
-inline void CGraphOrient<TSommet, TArc>::GROModifierSommet(int iNewNum) throw(CException)
+inline void CGraphOrient<TSommet, TArc>::GROModifierSommet(int iOldNum, int iNewNum) throw(CException)
 {
-	if (mipSOMGROListeSommets.find(iNum) != mipSOMGROListeSommets.end()) {
+	if (!mipSOMGROListeSommets.count(iOldNum)) {
 		CException except;
-		except.EXCModifier(VALEUR_DEJA_PRESENTE);
+		except.EXCModifier(GROEXC_SOMMET_ABSENT);
 		throw(except);
+	};
+	if (mipSOMGROListeSommets.count(iNewNum)) {
+		CException except;
+		except.EXCModifier(GROEXC_SOMMET_DEJA_PRESENTE);
+		throw(except);
+	};
+	TSommet* pSommet = mipSOMGROListeSommets[iOldNum];
+	pSommet->SOMSetNum(iNewNum);
+
+	for (TArc* pArc : vpARCGROListeArcs) {
+		if (pArc.ARCGetSommetDepart() == iOldNum) {
+			pArc.ARCSetSommetDepart(iNewNum);
+		}
+		if (pArc.ARCGetSommetArrivee() == iOldNum) {
+			pArc.ARCSetSommetArrivee(iNewNum);
+		}
 	}
+
+	mipSOMGROListeSommets[iNewNum] = pSommet;
+	mipSOMGROListeSommets.erase(iOldNum);
 }
 
 template<typename TSommet, typename TArc>
@@ -164,7 +184,7 @@ inline void CGraphOrient<TSommet, TArc>::GROSupprimerSommet(int iNum) throw(CExc
 	auto itSommet = mipSOMGROListeSommets.find(iNum);
 	if (itSommet == mipSOMGROListeSommets.end()) {
 		CException except;
-		except.EXCModifier(VALEUR_ABSENTE);
+		except.EXCModifier(GROEXC_SOMMET_ABSENT);
 		throw(except);
 	}
 	TSommet* sommetASupprimer = itSommet->second;
