@@ -33,6 +33,7 @@ using namespace std;
 #define GROEXC_SOMMET_ABSENT 3
 #define GROEXC_SOMMET_ARC_ABSENT 4
 #define GROEXC_ARC_DEJA_PRESENT 5
+#define GROEXC_ARC_ABSENT 6
 
 template<typename TSommet, typename TArc>
 class CGraphOrient
@@ -284,6 +285,30 @@ inline void CGraphOrient<TSommet, TArc>::GROAjouterArc(int iDepart, int iArrivee
 template<typename TSommet, typename TArc>
 inline void CGraphOrient<TSommet, TArc>::GROSupprimerArc(int iDepart, int iArrivee)
 {
+	auto itArc = find_if(
+		vpARCGROListeArcs.begin(),
+		vpARCGROListeArcs.end(),
+		[iDepart, iArrivee](TArc* pArc) {
+			return pArc->ARCGetSommetDepart() == iDepart &&
+				pArc->ARCGetSommetArrivee() == iArrivee;
+		}
+	);
+	if (itArc == vpARCGROListeArcs.end()) {
+		CException except;
+		except.EXCModifier(GROEXC_ARC_ABSENT);
+		throw(except);
+	}
+
+	TArc* pArc = *itArc;
+
+	TSommet* pDepart = GROGetSommet(iDepart);
+	TSommet* pArrivee = GROGetSommet(iArrivee);
+
+	if (pDepart) { pDepart->SOMSupprimerArcSortant(pArc); };
+	if (pArrivee) { pArrivee->SOMSupprimerEntrant(pArc); };
+
+	delete pArc;
+	vpARCGROListeArcs.erase(itArc);
 }
 
 template<typename TSommet, typename TArc>
