@@ -131,8 +131,24 @@ public:
 	* **************************************************************/
 	void GROAjouterArc(int iDepart, int iArrivee);
 
+	/* *************************************************************
+	* GROAjouterArcs
+	* **************************************************************
+	* Entrée : Num sommet de départ et d'arrivée
+	* Nécessite : Rien
+	* Sortie : Le vecteur contenant les pointeurs vers les arcs du graphe
+	* Entraine : Rien
+	* **************************************************************/
 	void GROSupprimerArc(int iDepart, int iArrivee); 
 
+	/* *************************************************************
+	* GROAjouterArcs
+	* **************************************************************
+	* Entrée : Num sommet de départ et d'arrivée
+	* Nécessite : Rien
+	* Sortie : Le vecteur contenant les pointeurs vers les arcs du graphe
+	* Entraine : Rien
+	* **************************************************************/
 	CGraphOrient<TSommet, TArc>* GROInverser() const;
 
 	/* *************************************************************
@@ -293,6 +309,7 @@ inline void CGraphOrient<TSommet, TArc>::GROSupprimerArc(int iDepart, int iArriv
 				pArc->ARCGetSommetArrivee() == iArrivee;
 		}
 	);
+
 	if (itArc == vpARCGROListeArcs.end()) {
 		CException except;
 		except.EXCModifier(GROEXC_ARC_ABSENT);
@@ -314,5 +331,16 @@ inline void CGraphOrient<TSommet, TArc>::GROSupprimerArc(int iDepart, int iArriv
 template<typename TSommet, typename TArc>
 inline CGraphOrient<TSommet, TArc>* CGraphOrient<TSommet, TArc>::GROInverser() const
 {
-	return nullptr;
+	CGraphOrient<TSommet, TArc>* pGrapheInverse = new CGraphOrient();
+
+	for (const auto& paire : mipSOMGROListeSommets) {
+		pGrapheInverse->GROAjouterSommet(paire.first)
+	}
+
+	for (const TArc* pArc : vpARCGROListeArcs) {
+		pGrapheInverse->GROAjouterArc(pArc->ARCGetSommetArrivee(), pArc->ARCGetSommetDepart());
+	}
+	
+	return pGrapheInverse;
+	
 }
