@@ -40,7 +40,7 @@ protected :
 public :
 	CSommet() : iSOMNum(0) {};
 	CSommet(int iNum) : iSOMNum(iNum) {};
-	~CSommet() = default;
+	virtual ~CSommet() = default;
 
 	// MÉTHODES
 	/* *************************************************************
