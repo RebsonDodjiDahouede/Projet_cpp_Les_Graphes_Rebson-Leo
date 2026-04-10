@@ -127,6 +127,17 @@ public:
 	* Entraine : Rien
 	* **************************************************************/
 	map<int, TSommet*>& GROGetSommets() const { return mipSOMGROListeSommets; };
+
+	/* *************************************************************
+	* GROGetSommets
+	* **************************************************************
+	* Entrée : Rien
+	* Nécessite : Rien
+	* Sortie : Le dictionnaire contenant les sommets du graphe
+	* Entraine : Rien
+	* **************************************************************/
+	TSommet& operator[](int iNumSommet) { return mipSOMGROListeSommets.at(iNumSommet); }
+
 };
 #endif //CGRAPHORIENT_H
 
