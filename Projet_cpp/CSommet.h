@@ -35,7 +35,50 @@ protected :
 	int iSOMNum;
 	vector<CArc*> vpSOMArcEntrants;
 	vector<CArc*> vpSOMArcSortants;
-	
+
+	/* *************************************************************
+	* SOMAjouterArcEntrant
+	* **************************************************************
+	* Entrée : Un pointeur sur l'arc
+	* Nécessite : Rien
+	* Sortie : Rien
+	* Entraine : L'ajout d'un arc entrant dans le vecteur des arcs entrants
+	* **************************************************************/
+	void SOMAjouterArcEntrant(CArc* pArcEntrant) { vpSOMArcEntrants.push_back(pArcEntrant); };
+
+	/* *************************************************************
+	* SOMAjouterArcSortant
+	* **************************************************************
+	* Entrée : Un pointeur sur l'arc
+	* Nécessite : Rien
+	* Sortie : Rien
+	* Entraine : L'ajout d'un arc sortant dans le vecteur des arcs sortant
+	* **************************************************************/
+	void SOMAjouterArcSortant(CArc* pArcSortant) { vpSOMArcSortants.push_back(pArcSortant); };
+
+	/* *************************************************************
+	* SOMSupprimerArcEntrant
+	* **************************************************************
+	* Entrée : Un pointeur sur l'arc
+	* Nécessite : Rien
+	* Sortie : Rien
+	* Entraine : La suppression d'un arc entrant dans le vecteur des arcs entrant
+	* **************************************************************/
+	void SOMSupprimerArcEntrant(CArc* pArcEntrantASupprimer) { vpSOMArcEntrants.erase(find(vpSOMArcEntrants.begin(), vpSOMArcEntrants.end(), pArcEntrantASupprimer)); };
+
+	/* *************************************************************
+	* SOMSupprimerArcSortant
+	* **************************************************************
+	* Entrée : Un pointeur sur l'arc
+	* Nécessite : Rien
+	* Sortie : Rien
+	* Entraine : La suppression d'un arc sortant dans le vecteur des arcs sortants
+	* **************************************************************/
+	void SOMSupprimerArcSortant(CArc* pArcSortantASupprimer) { vpSOMArcSortants.erase(find(vpSOMArcSortants.begin(), vpSOMArcSortants.end(), pArcSortantASupprimer)); };
+
+	template<typename TSommet, typename TArc>
+	friend class CGraphOrient;
+
 	// CONSTRUCTEURS
 public :
 	CSommet() : iSOMNum(0) {};
@@ -82,46 +125,6 @@ public :
 	* Entraine : Rien
 	* **************************************************************/
 	const vector<CArc*>& SOMGetArcsSortants() { return vpSOMArcSortants; };
-
-	/* *************************************************************
-	* SOMAjouterArcEntrant
-	* **************************************************************
-	* Entrée : Un pointeur sur l'arc
-	* Nécessite : Rien
-	* Sortie : Rien
-	* Entraine : L'ajout d'un arc entrant dans le vecteur des arcs entrants
-	* **************************************************************/
-	void SOMAjouterArcEntrant(CArc* pArcEntrant) { vpSOMArcEntrants.push_back(pArcEntrant); };
-
-	/* *************************************************************
-	* SOMAjouterArcSortant
-	* **************************************************************
-	* Entrée : Un pointeur sur l'arc
-	* Nécessite : Rien
-	* Sortie : Rien
-	* Entraine : L'ajout d'un arc sortant dans le vecteur des arcs sortant
-	* **************************************************************/
-	void SOMAjouterArcSortant(CArc* pArcSortant) { vpSOMArcSortants.push_back(pArcSortant); };
-
-	/* *************************************************************
-	* SOMSupprimerArcEntrant
-	* **************************************************************
-	* Entrée : Un pointeur sur l'arc
-	* Nécessite : Rien
-	* Sortie : Rien
-	* Entraine : La suppression d'un arc entrant dans le vecteur des arcs entrant
-	* **************************************************************/
-	void SOMSupprimerArcEntrant(CArc* pArcEntrantASupprimer) { vpSOMArcEntrants.erase(find(vpSOMArcEntrants.begin(), vpSOMArcEntrants.end(), pArcEntrantASupprimer)); };
-
-	/* *************************************************************
-	* SOMSupprimerArcSortant
-	* **************************************************************
-	* Entrée : Un pointeur sur l'arc
-	* Nécessite : Rien
-	* Sortie : Rien
-	* Entraine : La suppression d'un arc sortant dans le vecteur des arcs sortants
-	* **************************************************************/
-	void SOMSupprimerArcSortant(CArc* pArcSortantASupprimer) { vpSOMArcSortants.erase(find(vpSOMArcSortants.begin(), vpSOMArcSortants.end(), pArcSortantASupprimer)); };
 
 	/* *************************************************************
 	* operator==
