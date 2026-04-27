@@ -253,7 +253,7 @@ inline void CGraphOrient<TSommet, TArc>::GROSupprimerSommet(int iNum) throw(CExc
 	}
 
 	delete sommetASupprimer;
-	mipSOMGROListeSommets.erase(itSommet)
+	mipSOMGROListeSommets.erase(itSommet);
 }
 
 template<typename TSommet, typename TArc>
@@ -334,7 +334,7 @@ inline CGraphOrient<TSommet, TArc>* CGraphOrient<TSommet, TArc>::GROInverser() c
 	CGraphOrient<TSommet, TArc>* pGrapheInverse = new CGraphOrient();
 
 	for (const auto& paire : mipSOMGROListeSommets) {
-		pGrapheInverse->GROAjouterSommet(paire.first)
+		pGrapheInverse->GROAjouterSommet(paire.first);
 	}
 
 	for (const TArc* pArc : vpARCGROListeArcs) {

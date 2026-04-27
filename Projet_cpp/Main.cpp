@@ -56,3 +56,20 @@ static void TesterCArc()
 	cout << "Test de l'opérateur ==..." << endl;
 	TestAssert(arcLambda2 == arcLambda3, "Les deux arcs lambda 2 & 3 sont bien égaux");
 }
+
+static void TesterSommet() {
+	cout << "\n===== TESTS CSommet =====" << endl;
+
+}
+
+int main() {
+	try
+	{
+		TesterCArc();
+		TesterSommet();
+	}
+	catch (const std::exception&)
+	{
+		cout << "Une Exception" << endl;
+	}
+}
