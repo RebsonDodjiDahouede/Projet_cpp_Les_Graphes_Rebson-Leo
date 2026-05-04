@@ -199,7 +199,7 @@ static void TesterCGraphOrient()
     graphe.GROSupprimerSommet(10);
     TestAssert(graphe.GROGetSommet(10) == nullptr, "GROSupprimerSommet : sommet supprime");
     TestAssert(graphe.GROGetSommets().size() == 2, "GROSupprimerSommet : 2 sommets restants");
-    TestAssert(graphe.GROGetArcs().size() == 1, "GROSupprimerSommet : l'arc lie au sommet est supprime");
+    TestAssert(graphe.GROGetArcs().size() == 0, "GROSupprimerSommet : l'arc lie au sommet est supprime");
 
     // Exception : sommet absent
     bool bExceptionSommetAbsent = false;
@@ -270,7 +270,7 @@ int main()
         //TesterCArc();
         //TesterCSommet();
         //TesterCSommetViaGraphe();
-        //TesterCGraphOrient();
+        TesterCGraphOrient();
         //DemonstrationGraphe();
     }
     catch (CException&)
