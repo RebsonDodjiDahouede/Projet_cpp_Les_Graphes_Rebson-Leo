@@ -1,6 +1,6 @@
 #include <iostream>
 #include <string>
-#include "CGraphOrient.h"   // inclut CSommet.h et CArc.h
+#include "CGraph.h"   // inclut CGraphOrient.h, CSommet.h et CArc.h
 
 using namespace std;
 
@@ -258,6 +258,44 @@ static void DemonstrationGraphe()
     delete pInverse;
 }
 
+static void TesterCGraph()
+{
+    cout << "\n===== TESTS CGraph =====\n";
+
+    CGraph<CSommet, CArc> graphe;
+    graphe.GROAjouterSommet(1);
+    graphe.GROAjouterSommet(2);
+    graphe.GROAjouterSommet(3);
+
+    graphe.CGRAjouterArete(1, 2);
+    graphe.CGRAjouterArete(2, 3);
+
+    // Une arête = deux arcs internes
+    TestAssert(graphe.GROGetArcs().size() == 4,
+        "CGraph : 2 aretes = 4 arcs internes");
+
+    // Les deux sens sont bien présents
+    CSommet* pS1 = graphe.GROGetSommet(1);
+    CSommet* pS2 = graphe.GROGetSommet(2);
+    TestAssert(pS1->SOMGetArcsSortants().size() == 1,
+        "CGraph : sommet 1 a 1 arc sortant");
+    TestAssert(pS1->SOMGetArcsEntrants().size() == 1,
+        "CGraph : sommet 1 a 1 arc entrant (depuis 2)");
+    TestAssert(pS2->SOMGetArcsSortants().size() == 2,
+        "CGraph : sommet 2 a 2 arcs sortants (vers 1 et 3)");
+
+    // Suppression d'une arête
+    graphe.CGRSupprimerArete(1, 2);
+    TestAssert(graphe.GROGetArcs().size() == 2,
+        "CGraph : suppression arête 1-2 -> 2 arcs restants");
+    TestAssert(pS1->SOMGetArcsSortants().empty(),
+        "CGraph : sommet 1 n'a plus d'arc sortant");
+
+    // Affichage (vérification visuelle)
+    cout << "\n--- Affichage CGraph ---\n";
+    graphe.GROAfficher();
+}
+
 // ================================================================
 // main
 // ================================================================
@@ -270,8 +308,9 @@ int main()
         //TesterCArc();
         //TesterCSommet();
         //TesterCSommetViaGraphe();
-        TesterCGraphOrient();
+        //TesterCGraphOrient();
         //DemonstrationGraphe();
+        TesterCGraph();
     }
     catch (CException&)
     {
