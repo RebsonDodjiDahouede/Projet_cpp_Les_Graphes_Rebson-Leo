@@ -74,11 +74,6 @@ static void TesterCSommet()
     // Listes vides par defaut
     TestAssert(sommet5.SOMGetArcsEntrants().empty(), "CSommet : arcs entrants vides a la creation");
     TestAssert(sommet5.SOMGetArcsSortants().empty(), "CSommet : arcs sortants vides a la creation");
-
-    // SOMSetNum — test de la modification du numero uniquement
-    // (la mise a jour des arcs est testee dans TesterCGraphOrient via GROModifierSommet)
-    sommet5.SOMSetNum(99);
-    TestAssert(sommet5.SOMGetNum() == 99, "SOMSetNum : numero modifie correctement");
 }
 
 // ================================================================

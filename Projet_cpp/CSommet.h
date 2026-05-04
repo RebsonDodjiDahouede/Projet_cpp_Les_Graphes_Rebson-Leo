@@ -5,14 +5,13 @@
 * **************************************************************
 * ROLE : Cette classe va permettre de créer un objet Sommet de graphes
 * **************************************************************
-* VERSION : 1.0
+* VERSION : 1.1
 * AUTEUR : Rebson & Leo
 * DATE : 25/03/2026
 * **************************************************************
 * INCLUSIONS EXTERNES :
 */
 #include <vector>
-#include <iostream>
 #include <algorithm>
 #include "CArc.h"
 #include "CException.h"
@@ -30,112 +29,119 @@ using namespace std;
 
 class CSommet
 {
-	// ATTRIBUTS
-protected :
-	int iSOMNum;
-	vector<CArc*> vpSOMArcEntrants;
-	vector<CArc*> vpSOMArcSortants;
+    // ATTRIBUTS
+protected:
+    int iSOMNum;
+    std::vector<CArc*> vpSOMArcEntrants;
+    std::vector<CArc*> vpSOMArcSortants;
 
-	/* *************************************************************
-	* SOMAjouterArcEntrant
-	* **************************************************************
-	* Entrée : Un pointeur sur l'arc
-	* Nécessite : Rien
-	* Sortie : Rien
-	* Entraine : L'ajout d'un arc entrant dans le vecteur des arcs entrants
-	* **************************************************************/
-	void SOMAjouterArcEntrant(CArc* pArcEntrant) { vpSOMArcEntrants.push_back(pArcEntrant); };
+    /* *************************************************************
+    * SOMAjouterArcEntrant
+    * **************************************************************
+    * Entrée : Un pointeur sur l'arc
+    * Nécessite : Rien
+    * Sortie : Rien
+    * Entraine : L'ajout d'un arc entrant dans le vecteur des arcs entrants
+    * **************************************************************/
+    void SOMAjouterArcEntrant(CArc* pArcEntrant) { vpSOMArcEntrants.push_back(pArcEntrant); }
 
-	/* *************************************************************
-	* SOMAjouterArcSortant
-	* **************************************************************
-	* Entrée : Un pointeur sur l'arc
-	* Nécessite : Rien
-	* Sortie : Rien
-	* Entraine : L'ajout d'un arc sortant dans le vecteur des arcs sortant
-	* **************************************************************/
-	void SOMAjouterArcSortant(CArc* pArcSortant) { vpSOMArcSortants.push_back(pArcSortant); };
+    /* *************************************************************
+    * SOMAjouterArcSortant
+    * **************************************************************
+    * Entrée : Un pointeur sur l'arc
+    * Nécessite : Rien
+    * Sortie : Rien
+    * Entraine : L'ajout d'un arc sortant dans le vecteur des arcs sortants
+    * **************************************************************/
+    void SOMAjouterArcSortant(CArc* pArcSortant) { vpSOMArcSortants.push_back(pArcSortant); }
 
-	/* *************************************************************
-	* SOMSupprimerArcEntrant
-	* **************************************************************
-	* Entrée : Un pointeur sur l'arc
-	* Nécessite : Rien
-	* Sortie : Rien
-	* Entraine : La suppression d'un arc entrant dans le vecteur des arcs entrant
-	* **************************************************************/
-	void SOMSupprimerArcEntrant(CArc* pArcEntrantASupprimer) { vpSOMArcEntrants.erase(find(vpSOMArcEntrants.begin(), vpSOMArcEntrants.end(), pArcEntrantASupprimer)); };
+    /* *************************************************************
+    * SOMSupprimerArcEntrant
+    * **************************************************************
+    * Entrée : Un pointeur sur l'arc
+    * Nécessite : Rien
+    * Sortie : Rien
+    * Entraine : La suppression de l'arc entrant dans le vecteur des arcs entrants
+    *            Ne fait rien si le pointeur est absent (securise contre l'UB)
+    * **************************************************************/
+    void SOMSupprimerArcEntrant(CArc* pArcEntrantASupprimer);
 
-	/* *************************************************************
-	* SOMSupprimerArcSortant
-	* **************************************************************
-	* Entrée : Un pointeur sur l'arc
-	* Nécessite : Rien
-	* Sortie : Rien
-	* Entraine : La suppression d'un arc sortant dans le vecteur des arcs sortants
-	* **************************************************************/
-	void SOMSupprimerArcSortant(CArc* pArcSortantASupprimer) { vpSOMArcSortants.erase(find(vpSOMArcSortants.begin(), vpSOMArcSortants.end(), pArcSortantASupprimer)); };
+    /* *************************************************************
+    * SOMSupprimerArcSortant
+    * **************************************************************
+    * Entrée : Un pointeur sur l'arc
+    * Nécessite : Rien
+    * Sortie : Rien
+    * Entraine : La suppression de l'arc sortant dans le vecteur des arcs sortants
+    *            Ne fait rien si le pointeur est absent (securise contre l'UB)
+    * **************************************************************/
+    void SOMSupprimerArcSortant(CArc* pArcSortantASupprimer);
 
-	template<typename TSommet, typename TArc>
-	friend class CGraphOrient;
+    /* *************************************************************
+    * SOMSetNum
+    * **************************************************************
+    * Entrée : Un entier
+    * Nécessite : Rien
+    * Sortie : Rien
+    * Entraine : La modification du numéro du sommet uniquement.
+    *            La mise à jour des arcs adjacents est de la
+    *            responsabilité de CGraphOrient::GROModifierSommet.
+    * **************************************************************/
+    void SOMSetNum(int iNum);
 
-	// CONSTRUCTEURS
-public :
-	CSommet() : iSOMNum(0) {};
-	CSommet(int iNum) : iSOMNum(iNum) {};
-	virtual ~CSommet() = default;
+    // Seul CGraphOrient peut appeler les méthodes protected ci-dessus
+    template<typename TSommet, typename TArc>
+    friend class CGraphOrient;
 
-	// MÉTHODES
-	/* *************************************************************
-	* SOMGetNum
-	* **************************************************************
-	* Entrée : Rien
-	* Nécessite : Rien
-	* Sortie : La valeur du Nombre du sommet 
-	* Entraine : Rien
-	* **************************************************************/
-	int SOMGetNum() const { return iSOMNum; };
+    // CONSTRUCTEURS
+public:
+    CSommet() : iSOMNum(0) {}
+    CSommet(int iNum) : iSOMNum(iNum) {}
+    virtual ~CSommet() = default;
 
-	/* *************************************************************
-	* SOMSetNum
-	* **************************************************************
-	* Entrée : Un entier
-	* Nécessite : Rien
-	* Sortie : Rien
-	* Entraine : La modification de la valeur du nombre du sommet
-	* **************************************************************/
-	void SOMSetNum(int iNum);
+    // MÉTHODES
 
-	/* *************************************************************
-	* SOMGetArcEntrants
-	* **************************************************************
-	* Entrée : Rien
-	* Nécessite : Rien
-	* Sortie : Une référence sur le vecteur des arcs entrants
-	* Entraine : Rien
-	* **************************************************************/
-	const vector<CArc*>& SOMGetArcsEntrants() { return vpSOMArcEntrants; };
+    /* *************************************************************
+    * SOMGetNum
+    * **************************************************************
+    * Entrée : Rien
+    * Nécessite : Rien
+    * Sortie : La valeur du numéro du sommet
+    * Entraine : Rien
+    * **************************************************************/
+    int SOMGetNum() const { return iSOMNum; }
 
-	/* *************************************************************
-	* SOMGetArcSortants
-	* **************************************************************
-	* Entrée : Rien
-	* Nécessite : Rien
-	* Sortie : Une référence sur le vecteur des arcs sortants
-	* Entraine : Rien
-	* **************************************************************/
-	const vector<CArc*>& SOMGetArcsSortants() { return vpSOMArcSortants; };
+    /* *************************************************************
+    * SOMGetArcsEntrants
+    * **************************************************************
+    * Entrée : Rien
+    * Nécessite : Rien
+    * Sortie : Une référence constante sur le vecteur des arcs entrants
+    * Entraine : Rien
+    * **************************************************************/
+    const std::vector<CArc*>& SOMGetArcsEntrants() const { return vpSOMArcEntrants; }
 
-	/* *************************************************************
-	* operator==
-	* **************************************************************
-	* Entrée : Une référence sur un objet CSommet
-	* Nécessite : Rien
-	* Sortie : Un bool
-	* Entraine : Rien
-	* **************************************************************/
-	bool operator==(CSommet& SOMParam) { return iSOMNum == SOMParam.iSOMNum && vpSOMArcEntrants == SOMParam.vpSOMArcEntrants && vpSOMArcSortants == SOMParam.vpSOMArcSortants; };
+    /* *************************************************************
+    * SOMGetArcsSortants
+    * **************************************************************
+    * Entrée : Rien
+    * Nécessite : Rien
+    * Sortie : Une référence constante sur le vecteur des arcs sortants
+    * Entraine : Rien
+    * **************************************************************/
+    const std::vector<CArc*>& SOMGetArcsSortants() const { return vpSOMArcSortants; }
 
+    /* *************************************************************
+    * operator==
+    * **************************************************************
+    * Entrée : Une référence constante sur un objet CSommet
+    * Nécessite : Rien
+    * Sortie : Un bool — vrai si les numéros sont identiques
+    * Entraine : Rien
+    * Note : On compare uniquement les numéros. Comparer les vecteurs
+    *        de pointeurs comparerait des adresses mémoire, pas les arcs.
+    * **************************************************************/
+    bool operator==(const CSommet& SOMParam) const { return iSOMNum == SOMParam.iSOMNum; }
 };
-#endif //CSOMMET_H
 
+#endif // CSOMMET_H
