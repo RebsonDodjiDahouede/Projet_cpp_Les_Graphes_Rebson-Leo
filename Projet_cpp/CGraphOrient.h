@@ -69,7 +69,7 @@ public:
     * Sortie : Pointeur sur le sommet, nullptr si absent
     * Entraine : Rien
     * **************************************************************/
-    TSommet* GROGetSommet(int iNum) const;  // Correction bug #10 : throw() retiré
+    TSommet* GROGetSommet(int iNum) const;
 
     /* *************************************************************
     * GROAjouterSommet
@@ -79,7 +79,7 @@ public:
     * Sortie : Rien
     * Entraine : Lance CException(GROEXC_SOMMET_DEJA_PRESENTE) si doublon
     * **************************************************************/
-    void GROAjouterSommet(int iNum);        // Correction bug #10
+    void GROAjouterSommet(int iNum);
 
     /* *************************************************************
     * GROModifierSommet
@@ -89,7 +89,7 @@ public:
     * Sortie : Rien
     * Entraine : Lance CException si préconditions non respectées
     * **************************************************************/
-    void GROModifierSommet(int iOldNum, int iNewNum);  // Correction bug #10
+    void GROModifierSommet(int iOldNum, int iNewNum);
 
     /* *************************************************************
     * GROSupprimerSommet
@@ -99,7 +99,7 @@ public:
     * Sortie : Rien
     * Entraine : Lance CException(GROEXC_SOMMET_ABSENT) si absent
     * **************************************************************/
-    void GROSupprimerSommet(int iNum);      // Correction bug #10
+    void GROSupprimerSommet(int iNum);
 
     /* *************************************************************
     * GROAfficher
@@ -235,7 +235,7 @@ inline void CGraphOrient<TSommet, TArc>::GROModifierSommet(int iOldNum, int iNew
             pArc->ARCSetSommetArrivee(iNewNum);
     }
 
-    pSommet->SOMSetNum(iNewNum);            // Uniquement le numéro interne du sommet
+    pSommet->SOMSetNum(iNewNum);
     mipSOMGROListeSommets[iNewNum] = pSommet;
     mipSOMGROListeSommets.erase(iOldNum);
 }
@@ -261,15 +261,11 @@ inline void CGraphOrient<TSommet, TArc>::GROSupprimerSommet(int iNum)
         TArc* pArc = *itArc;
         if (pArc->ARCGetSommetDepart() == iNum || pArc->ARCGetSommetArrivee() == iNum)
         {
-            /* On utilise GROGetSommet (retourne nullptr si absent)
-               plutôt que operator[] (qui insèrerait un élément manquant). */
             TSommet* pSommetDepart = GROGetSommet(pArc->ARCGetSommetDepart());
             TSommet* pSommetArrivee = GROGetSommet(pArc->ARCGetSommetArrivee());
 
             if (pSommetDepart)  pSommetDepart->SOMSupprimerArcSortant(pArc);
 
-            /* Correction bug #16 : la méthode s'appelle SOMSupprimerArcEntrant,
-               pas SOMSupprimerArcArrivant. */
             if (pSommetArrivee) pSommetArrivee->SOMSupprimerArcEntrant(pArc);
 
             delete pArc;
@@ -290,8 +286,6 @@ inline void CGraphOrient<TSommet, TArc>::GROSupprimerSommet(int iNum)
 template<typename TSommet, typename TArc>
 inline void CGraphOrient<TSommet, TArc>::GROAfficher(ostream& os) const
 {
-    /* Correction bug #12 : "\\n" affichait littéralement \n.
-       Les chaînes utilisent maintenant "\n" normalement. */
     os << "Sommets :\n";
     for (const auto& paire : mipSOMGROListeSommets)
         os << "  Sommet " << paire.first << "\n";
@@ -363,8 +357,6 @@ inline void CGraphOrient<TSommet, TArc>::GROSupprimerArc(int iDepart, int iArriv
 
     if (pDepart)  pDepart->SOMSupprimerArcSortant(pArc);
 
-    /* Correction bug #17 : la méthode s'appelle SOMSupprimerArcEntrant,
-       pas SOMSupprimerEntrant. */
     if (pArrivee) pArrivee->SOMSupprimerArcEntrant(pArc);
 
     delete pArc;
