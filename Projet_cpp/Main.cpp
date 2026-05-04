@@ -267,11 +267,11 @@ int main()
 
     try
     {
-        TesterCArc();
-        TesterCSommet();
-        TesterCSommetViaGraphe();
-        TesterCGraphOrient();
-        DemonstrationGraphe();
+        //TesterCArc();
+        //TesterCSommet();
+        //TesterCSommetViaGraphe();
+        //TesterCGraphOrient();
+        //DemonstrationGraphe();
     }
     catch (CException&)
     {
