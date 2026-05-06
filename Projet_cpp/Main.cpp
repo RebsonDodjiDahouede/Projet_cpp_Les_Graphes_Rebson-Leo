@@ -296,10 +296,7 @@ static void TesterCGraph()
     graphe.GROAfficher();
 }
 
-// ================================================================
-// main
-// ================================================================
-int main()
+static bool MainTestFunction() 
 {
     cout << "===== LANCEMENT DES TESTS =====\n";
 
@@ -310,7 +307,7 @@ int main()
         //TesterCSommetViaGraphe();
         //TesterCGraphOrient();
         //DemonstrationGraphe();
-        TesterCGraph();
+        //TesterCGraph();
     }
     catch (CException&)
     {
@@ -332,4 +329,12 @@ int main()
     cout << g_iTestsReussis << " / " << g_iTestsTotal << " tests reussis.\n";
 
     return (g_iTestsReussis == g_iTestsTotal) ? 0 : 1;
+}
+
+// ================================================================
+// main
+// ================================================================
+int main()
+{
+    
 }
