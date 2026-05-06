@@ -59,8 +59,12 @@ public:
     * Sortie  : Rien
     * Entraine : Initialise le nom de fichier
     * **************************************************************/
-    GraphFileReader(const string& sParam);
+    GraphFileReader(const string& sParam) : sGFRFileName(sParam) {};
     ~GraphFileReader() = default;
+
+    string& GFRGetFileName() { return sGFRFileName; };
+
+    void GFRSetFileName(const string& sParam) { sGFRFileName = sParam; };
 
     /* *************************************************************
     * GFRCreateGraphFromTextFile
