@@ -12,7 +12,9 @@
 * DATE : 05/05/2026
 * **************************************************************/
 
+#include <string>
 #include "CException.h"
+#include "CGraph.h"
 
 using namespace std;
 
@@ -24,6 +26,53 @@ using namespace std;
 
 class GraphFileReader
 {
+private:
+    string sGFRFileName;
+
+    /* *************************************************************
+    * GFRExtraireEntier
+    * **************************************************************
+    * Entrée  : Une ligne et une clé (ex: "NBSommets", "Numero")
+    * Nécessite : La ligne contient "cle=<entier>"
+    * Sortie  : L'entier extrait après le '='
+    * Entraine : Lance CException(GFREXC_FORMAT_INVALIDE) si introuvable
+    * **************************************************************/
+    int GFRExtraireEntier(const string& sLigne, const string& sCle) const;
+
+    /* *************************************************************
+    * GFRExtraireArc
+    * **************************************************************
+    * Entrée  : Une ligne du type "Debut=X, Fin=Y"
+    * Nécessite : La ligne contient "Debut=" et "Fin="
+    * Sortie  : iDebut et iFin par référence
+    * Entraine : Lance CException(GFREXC_FORMAT_INVALIDE) si introuvable
+    * **************************************************************/
+    void GFRExtraireArc(const string& sLigne, int& iDebut, int& iFin) const;
+
+public:
+
+    /* *************************************************************
+    * GraphFileReader
+    * **************************************************************
+    * Entrée  : Le chemin vers le fichier texte du graphe
+    * Nécessite : Rien
+    * Sortie  : Rien
+    * Entraine : Initialise le nom de fichier
+    * **************************************************************/
+    GraphFileReader(const string& sParam);
+    ~GraphFileReader() = default;
+
+    /* *************************************************************
+    * GFRCreateGraphFromTextFile
+    * **************************************************************
+    * Entrée  : Rien
+    * Nécessite : Le fichier respecte le format imposé
+    * Sortie  : Pointeur sur un CGraphOrient<CSommet,CArc> alloué
+    *           dynamiquement — l'appelant est responsable du delete
+    * Entraine : Lance CException si le fichier est introuvable,
+    *            mal formé ou incohérent (nb sommets/arcs =! déclaré)
+    * **************************************************************/
+    CGraphOrient<CSommet, CArc>* GFRCreateGraphFromTextFile() const;
 };
 #endif //GRAPH_FILE_READER_H
 
