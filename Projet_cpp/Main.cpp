@@ -1,6 +1,7 @@
 #include <iostream>
 #include <string>
 #include "CGraph.h"   // inclut CGraphOrient.h, CSommet.h et CArc.h
+#include "GraphFileReader.h"
 
 using namespace std;
 
@@ -302,12 +303,12 @@ static bool MainTestFunction()
 
     try
     {
-        //TesterCArc();
-        //TesterCSommet();
-        //TesterCSommetViaGraphe();
-        //TesterCGraphOrient();
-        //DemonstrationGraphe();
-        //TesterCGraph();
+        TesterCArc();
+        TesterCSommet();
+        TesterCSommetViaGraphe();
+        TesterCGraphOrient();
+        DemonstrationGraphe();
+        TesterCGraph();
     }
     catch (CException&)
     {
@@ -334,7 +335,36 @@ static bool MainTestFunction()
 // ================================================================
 // main
 // ================================================================
-int main()
+int main(int argc, char* argv[])
 {
-    
+    if (argc < 2)
+    {
+        cout << "Usage : " << argv[0] << " <fichier_graphe>\n";
+        return 1;
+    }
+
+    try
+    {
+        GraphFileReader reader(argv[1]);
+        CGraphOrient<CSommet, CArc>* pGraphe = reader.GFRCreateGraphFromTextFile();
+
+        cout << "--- Graphe original ---\n";
+        pGraphe->GROAfficher();
+
+        CGraphOrient<CSommet, CArc>* pInverse = pGraphe->GROInverser();
+
+        cout << "\n--- Graphe inverse ---\n";
+        pInverse->GROAfficher();
+
+        delete pInverse;
+        delete pGraphe;
+    }
+    catch (CException& e)
+    {
+        cout << "Erreur lors de la lecture du fichier (code : "
+            << e.EXCLire() << ")\n";
+        return 1;
+    }
+
+    return 0;
 }
