@@ -355,6 +355,8 @@ int main()
             << e.EXCLire() << ")\n";
         return 1;
     }
-
+    cout << "\nAppuyez sur Entrée pour quitter...";
+    cin.ignore();
+    cin.get();
     return 0;
 }
