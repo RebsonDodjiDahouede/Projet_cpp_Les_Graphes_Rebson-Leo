@@ -57,8 +57,8 @@ static void TesterCArc()
 }
 
 // ================================================================
-// Tests CSommet — seul ce qui est public est teste directement.
-// Les arcs (protected) sont testes via CGraphOrient.
+// Tests CSommet seulement ce qui est public est testé directement.
+// Les arcs (protected) sont testés via CGraphOrient.
 // ================================================================
 static void TesterCSommet()
 {
@@ -310,19 +310,10 @@ static bool MainTestFunction()
         DemonstrationGraphe();
         TesterCGraph();
     }
-    catch (CException&)
+    catch (CException& e)
     {
-        cout << "\n[FATAL] CException non geree dans un test.\n";
-        return 1;
-    }
-    catch (const exception& e)
-    {
-        cout << "\n[FATAL] Exception std : " << e.what() << "\n";
-        return 1;
-    }
-    catch (...)
-    {
-        cout << "\n[FATAL] Exception inconnue.\n";
+        cout << "Erreur lors des tests, (code : "
+            << e.EXCLire() << ")\n";
         return 1;
     }
 
@@ -335,20 +326,19 @@ static bool MainTestFunction()
 // ================================================================
 // main
 // ================================================================
-int main(int argc, char* argv[])
+int main()
 {
-    if (argc < 2)
-    {
-        cout << "Usage : " << argv[0] << " <fichier_graphe>\n";
-        return 1;
-    }
+    string sNomFichier;
+
+    cout << "Entrez le nom du fichier graphe : ";
+    cin >> sNomFichier;
 
     try
     {
-        GraphFileReader reader(argv[1]);
+        GraphFileReader reader(sNomFichier);
         CGraphOrient<CSommet, CArc>* pGraphe = reader.GFRCreateGraphFromTextFile();
 
-        cout << "--- Graphe original ---\n";
+        cout << "\n--- Graphe original ---\n";
         pGraphe->GROAfficher();
 
         CGraphOrient<CSommet, CArc>* pInverse = pGraphe->GROInverser();

@@ -17,7 +17,6 @@ int GraphFileReader::GFRExtraireEntier(const string& sLigne, const string& sCle)
     }
 
     // Extrait la sous-chaîne après "cle=" et la convertit en entier
-    // stoi s'arrête au premier caractère non numérique (virgule, espace...)
     try
     {
         return stoi(sLigne.substr(pos + sCleEgal.size()));
@@ -40,7 +39,7 @@ void GraphFileReader::GFRExtraireArc(const string& sLigne, int& iDebut, int& iFi
     }
     catch (CException&)
     {
-        // Relance avec le même code — la ligne est mal formée
+
         CException except;
         except.EXCModifier(GFREXC_FORMAT_INVALIDE);
         throw except;
@@ -95,7 +94,7 @@ CGraphOrient<CSommet, CArc>* GraphFileReader::GFRCreateGraphFromTextFile() const
         while (getline(fichier, sLigne) && sLigne.find(']') == string::npos)
         {
             // Ignore les lignes vides
-            if (sLigne.empty()) continue;
+            if (sLigne.empty()) { continue; };
 
             int iNum = GFRExtraireEntier(sLigne, "Numero");
             pGraphe->GROAjouterSommet(iNum);
@@ -121,7 +120,7 @@ CGraphOrient<CSommet, CArc>* GraphFileReader::GFRCreateGraphFromTextFile() const
         int iCompteurArcs = 0;
         while (getline(fichier, sLigne) && sLigne.find(']') == string::npos)
         {
-            if (sLigne.empty()) continue;
+            if (sLigne.empty()) { continue; };
 
             int iDebut = 0;
             int iFin = 0;
@@ -138,11 +137,10 @@ CGraphOrient<CSommet, CArc>* GraphFileReader::GFRCreateGraphFromTextFile() const
             throw except;
         }
     }
-    catch (...)
+    catch (exception e)
     {
-        // Nettoyage mémoire si une erreur survient après new
+        // Nettoyage mémoire si une erreur survient 
         delete pGraphe;
-        throw; // Relance l'exception originale vers l'appelant
     }
 
     return pGraphe;

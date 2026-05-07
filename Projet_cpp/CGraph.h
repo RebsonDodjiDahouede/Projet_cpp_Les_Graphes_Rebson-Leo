@@ -3,7 +3,7 @@
 /***************************************************************
 * CLASSE : CGraph
 * **************************************************************
-* ROLE : Graphe non orienté. Spécialise CGraphOrient en
+* ROLE : Graphe non orienté. SpéciNumAlise CGraphOrient en
 *        représentant chaque arête par deux arcs symétriques.
 * **************************************************************
 * VERSION : 1.0
@@ -31,11 +31,11 @@ public:
     * Entrée  : Numéro des deux sommets de l'arête
     * Nécessite : Les deux sommets existent dans le graphe
     * Sortie  : Rien
-    * Entraine : Création de deux arcs symétriques (iA->iB) et (iB->iA)
+    * Entraine : Création de deux arcs symétriques (iNumA->iNumB) et (iNumB->iNumA)
     *            Lance CException si un sommet est absent ou si
     *            l'arête existe déjà
     * **************************************************************/
-    void CGRAjouterArete(int iA, int iB);
+    void CGRAjouterArete(int iNumA, int iNumB);
 
     /* *************************************************************
     * CGRSupprimerArete
@@ -43,54 +43,49 @@ public:
     * Entrée  : Numéro des deux sommets de l'arête
     * Nécessite : L'arête existe (les deux arcs symétriques présents)
     * Sortie  : Rien
-    * Entraine : Suppression des deux arcs (iA->iB) et (iB->iA)
+    * Entraine : Suppression des deux arcs (iNumA->iNumB) et (iNumB->iNumA)
     *            Lance CException si l'un des deux arcs est absent
     * **************************************************************/
-    void CGRSupprimerArete(int iA, int iB);
+    void CGRSupprimerArete(int iNumA, int iNumB);
 
     /* *************************************************************
     * GROAfficher (override/surcharge)
     * **************************************************************
-    * Entrée  : Flux de sortie (cout par défaut)
+    * Entrée  : Flots (cout par défaut)
     * Nécessite : Rien
     * Sortie  : Rien
-    * Entraine : Affichage du graphe — chaque arête n'est affichée
-    *            qu'une fois (convention : on n'affiche que les arcs
+    * Entraine : Affichage du graphe où chaque arête n'est affichée
+    *            qu'une fois (On n'affiche que les arcs
     *            où depart < arrivee pour éviter les doublons visuels)
     * **************************************************************/
     virtual void GROAfficher(ostream& os = cout) const override;
 };
 
-#endif // CGRAPH_H
 
 
-// ================================================================
-// IMPLÉMENTATIONS (obligatoirement dans le .h pour les templates)
-// ================================================================
+// =====================================================================
+// IMPLÉMENTATIONS DES MÉTHODES (Toujours dans le .h comme CGRAPHORIENT)
+// =====================================================================
 
 template<typename TSommet, typename TArc>
-void CGraph<TSommet, TArc>::CGRAjouterArete(int iA, int iB)
+void CGraph<TSommet, TArc>::CGRAjouterArete(int iNumA, int iNumB)
 {
-    // Délègue entièrement à GROAjouterArc du parent.
-    // GROAjouterArc gère déjà : vérification des sommets,
+    // Délègue entièrement à GROAjouterArc du parent
+    // GROAjouterArc gère déjà la vérification des sommets,
     // détection des doublons, mise à jour des listes de CSommet.
-    CGraphOrient<TSommet, TArc>::GROAjouterArc(iA, iB);
-    CGraphOrient<TSommet, TArc>::GROAjouterArc(iB, iA);
+    CGraphOrient<TSommet, TArc>::GROAjouterArc(iNumA, iNumB);
+    CGraphOrient<TSommet, TArc>::GROAjouterArc(iNumB, iNumA);
 }
-
-// ----------------------------------------------------------------
 
 template<typename TSommet, typename TArc>
-void CGraph<TSommet, TArc>::CGRSupprimerArete(int iA, int iB)
+void CGraph<TSommet, TArc>::CGRSupprimerArete(int iNumA, int iNumB)
 {
-    // Délègue entièrement à GROSupprimerArc du parent.
+    // Délègue entièrement à GROSupprimerArc du parent comme pour l'ajout
     // Si l'un des arcs est absent, GROSupprimerArc lève une
-    // CException(GROEXC_ARC_ABSENT) — comportement cohérent.
-    CGraphOrient<TSommet, TArc>::GROSupprimerArc(iA, iB);
-    CGraphOrient<TSommet, TArc>::GROSupprimerArc(iB, iA);
+    // CException(GROEXC_ARC_ABSENT)
+    CGraphOrient<TSommet, TArc>::GROSupprimerArc(iNumA, iNumB);
+    CGraphOrient<TSommet, TArc>::GROSupprimerArc(iNumB, iNumA);
 }
-
-// ----------------------------------------------------------------
 
 template<typename TSommet, typename TArc>
 void CGraph<TSommet, TArc>::GROAfficher(ostream& os) const
@@ -100,7 +95,7 @@ void CGraph<TSommet, TArc>::GROAfficher(ostream& os) const
         os << "  Sommet " << paire.first << "\n";
 
     // On n'affiche que les arcs où depart < arrivee pour éviter
-    // d'afficher deux fois chaque arête (A-B et B-A).
+    // d'afficher deux fois chaque arête (A-B et B-A)
     os << "Aretes :\n";
     for (const TArc* pArc : this->vpARCGROListeArcs)
     {
@@ -109,3 +104,5 @@ void CGraph<TSommet, TArc>::GROAfficher(ostream& os) const
             << " -- " << pArc->ARCGetSommetArrivee() << "\n";
     }
 }
+
+#endif // CGRAPH_H

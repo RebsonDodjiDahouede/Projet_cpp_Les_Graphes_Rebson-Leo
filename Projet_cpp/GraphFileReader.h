@@ -71,10 +71,9 @@ public:
     * **************************************************************
     * Entrée  : Rien
     * Nécessite : Le fichier respecte le format imposé
-    * Sortie  : Pointeur sur un CGraphOrient<CSommet,CArc> alloué
-    *           dynamiquement — l'appelant est responsable du delete
+    * Sortie  : Pointeur sur un CGraphOrient<CSommet,CArc>
     * Entraine : Lance CException si le fichier est introuvable,
-    *            mal formé ou incohérent (nb sommets/arcs =! déclaré)
+    *            mal formé ou incohérent
     * **************************************************************/
     CGraphOrient<CSommet, CArc>* GFRCreateGraphFromTextFile() const;
 };

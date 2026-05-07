@@ -62,7 +62,7 @@ protected:
     * Nécessite : Rien
     * Sortie : Rien
     * Entraine : La suppression de l'arc entrant dans le vecteur des arcs entrants
-    *            Ne fait rien si le pointeur est absent (securise contre l'UB)
+    *            Ne fait rien si le pointeur est absent
     * **************************************************************/
     void SOMSupprimerArcEntrant(CArc* pArcEntrantASupprimer);
 
@@ -73,7 +73,7 @@ protected:
     * Nécessite : Rien
     * Sortie : Rien
     * Entraine : La suppression de l'arc sortant dans le vecteur des arcs sortants
-    *            Ne fait rien si le pointeur est absent (securise contre l'UB)
+    *            Ne fait rien si le pointeur est absent
     * **************************************************************/
     void SOMSupprimerArcSortant(CArc* pArcSortantASupprimer);
 
@@ -89,7 +89,7 @@ protected:
     * **************************************************************/
     void SOMSetNum(int iNum);
 
-    // Seul CGraphOrient peut appeler les méthodes protected ci-dessus
+    // Seul CGraphOrient pourra appeler les méthodes protected juste au-dessus
     template<typename TSommet, typename TArc>
     friend class CGraphOrient;
 
@@ -136,10 +136,9 @@ public:
     * **************************************************************
     * Entrée : Une référence constante sur un objet CSommet
     * Nécessite : Rien
-    * Sortie : Un bool — vrai si les numéros sont identiques
+    * Sortie : Un booléen, vrai si les numéros sont identiques
     * Entraine : Rien
-    * Note : On compare uniquement les numéros. Comparer les vecteurs
-    *        de pointeurs comparerait des adresses mémoire, pas les arcs.
+    * Note : On compare uniquement les numéros.
     * **************************************************************/
     bool operator==(const CSommet& SOMParam) const { return iSOMNum == SOMParam.iSOMNum; }
 };

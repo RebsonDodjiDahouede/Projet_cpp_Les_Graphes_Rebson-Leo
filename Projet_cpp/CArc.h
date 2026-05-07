@@ -49,7 +49,7 @@ public:
 	int ARCGetSommetDepart() const { return iARCSommetDepart; };
 
 	/* *************************************************************
-	* ARCGetSommetArrivé
+	* ARCGetSommetArrivee
 	* **************************************************************
 	* Entrée : Rien
 	* Nécessite : Rien
@@ -59,7 +59,7 @@ public:
 	int ARCGetSommetArrivee() const { return iARCSommetArrivee; };
 
 	/* *************************************************************
-	* ARCGetSommetDepart
+	* ARCSetSommetDepart
 	* **************************************************************
 	* Entrée : La nouvelle valeur du sommet de départ de l'arc
 	* Nécessite : Rien 
@@ -69,7 +69,7 @@ public:
 	void ARCSetSommetDepart(int iSommetDepart) { iARCSommetDepart = iSommetDepart; };
 
 	/* *************************************************************
-	* ARCGetSommetArrivee
+	* ARCSetSommetArrivee
 	* **************************************************************
 	* Entrée : La nouvelle valeur du sommet d'arrivée de l'arc
 	* Nécessite : Rien

@@ -30,7 +30,7 @@ using namespace std;
 template<typename TSommet, typename TArc>
 class CGraphOrient
 {
-    // ATTRIBUTS
+    // ATTRIBUTS et CONTRAINTES D'HÉRITAGE
     static_assert(is_base_of<CSommet, TSommet>::value, "TSommet doit hériter de CSommet");
     static_assert(is_base_of<CArc, TArc>::value, "TArc doit hériter de CArc");
 
@@ -43,13 +43,6 @@ public:
     // CONSTRUCTEURS
     CGraphOrient() = default;
 
-    /* *************************************************************
-    * ~CGraphOrient
-    * **************************************************************
-    * Correction bug #8 : on itère sur les paires de la map et on
-    * delete paire.second (le TSommet*). L'ancienne version tentait
-    * de copier pair<int,TSommet*> dans un TSommet — ne compilait pas.
-    * **************************************************************/
     virtual ~CGraphOrient()
     {
         for (TArc* pArc : vpARCGROListeArcs)
@@ -117,7 +110,6 @@ public:
     * Entrée : Rien
     * Nécessite : Rien
     * Sortie : Référence constante sur le vecteur des arcs
-    * Correction bug #9 : méthode const retournant un const vector&
     * **************************************************************/
     const vector<TArc*>& GROGetArcs() const { return vpARCGROListeArcs; }
 
@@ -127,7 +119,6 @@ public:
     * Entrée : Rien
     * Nécessite : Rien
     * Sortie : Référence constante sur la map des sommets
-    * Correction bug #9 : méthode const retournant un const map&
     * **************************************************************/
     const map<int, TSommet*>& GROGetSommets() const { return mipSOMGROListeSommets; }
 
@@ -157,7 +148,7 @@ public:
     * Entrée : Rien
     * Nécessite : Rien
     * Sortie : Pointeur sur un nouveau graphe avec tous les arcs inversés
-    * Entraine : L'appelant est responsable du delete du graphe retourné
+    * Entraine : Rien
     * **************************************************************/
     CGraphOrient<TSommet, TArc>* GROInverser() const;
 
@@ -165,19 +156,17 @@ public:
     * operator[]
     * **************************************************************
     * Entrée : Numéro du sommet
-    * Nécessite : Le sommet existe (lance std::out_of_range sinon)
+    * Nécessite : Le sommet existe
     * Sortie : Référence sur le sommet
-    * Correction bug #11 : déréférencement du TSommet* retourné par at()
     * **************************************************************/
     TSommet& operator[](int iNumSommet) { return *mipSOMGROListeSommets.at(iNumSommet); }
 };
 
-#endif // CGRAPHORIENT_H
 
 
 // ================================================================
-// IMPLÉMENTATIONS
-// (obligatoirement dans le .h pour les templates)
+// IMPLÉMENTATIONS DES MÉTHODES 
+// (Dans le .h car nous avons un template)
 // ================================================================
 
 template<typename TSommet, typename TArc>
@@ -186,8 +175,6 @@ inline TSommet* CGraphOrient<TSommet, TArc>::GROGetSommet(int iNum) const
     auto it = mipSOMGROListeSommets.find(iNum);
     return (it != mipSOMGROListeSommets.end()) ? it->second : nullptr;
 }
-
-// ----------------------------------------------------------------
 
 template<typename TSommet, typename TArc>
 inline void CGraphOrient<TSommet, TArc>::GROAjouterSommet(int iNum)
@@ -201,11 +188,10 @@ inline void CGraphOrient<TSommet, TArc>::GROAjouterSommet(int iNum)
     mipSOMGROListeSommets[iNum] = new TSommet(iNum);
 }
 
-// ----------------------------------------------------------------
-
 template<typename TSommet, typename TArc>
 inline void CGraphOrient<TSommet, TArc>::GROModifierSommet(int iOldNum, int iNewNum)
 {
+    // Vérification pour les deux numéros
     if (!mipSOMGROListeSommets.count(iOldNum))
     {
         CException except;
@@ -221,11 +207,7 @@ inline void CGraphOrient<TSommet, TArc>::GROModifierSommet(int iOldNum, int iNew
 
     TSommet* pSommet = mipSOMGROListeSommets[iOldNum];
 
-    /* Correction bug #14 : pArc est un TArc* (pointeur),
-       il faut utiliser -> et non . pour accéder aux membres.
-       Correction bug #15 : SOMSetNum ne met plus à jour les arcs,
-       on effectue la mise à jour ici via le vecteur global d'arcs
-       — c'est CGraphOrient qui est responsable de la cohérence. */
+    // Gestion des arcs
     for (TArc* pArc : vpARCGROListeArcs)
     {
         if (pArc->ARCGetSommetDepart() == iOldNum)
@@ -235,16 +217,16 @@ inline void CGraphOrient<TSommet, TArc>::GROModifierSommet(int iOldNum, int iNew
             pArc->ARCSetSommetArrivee(iNewNum);
     }
 
+    // Modifications
     pSommet->SOMSetNum(iNewNum);
     mipSOMGROListeSommets[iNewNum] = pSommet;
     mipSOMGROListeSommets.erase(iOldNum);
 }
 
-// ----------------------------------------------------------------
-
 template<typename TSommet, typename TArc>
 inline void CGraphOrient<TSommet, TArc>::GROSupprimerSommet(int iNum)
 {
+
     auto itSommet = mipSOMGROListeSommets.find(iNum);
     if (itSommet == mipSOMGROListeSommets.end())
     {
@@ -253,6 +235,7 @@ inline void CGraphOrient<TSommet, TArc>::GROSupprimerSommet(int iNum)
         throw except;
     }
 
+    // On récupère le sommet à supp
     TSommet* pSommetASupprimer = itSommet->second;
     auto itArc = vpARCGROListeArcs.begin();
 
@@ -264,10 +247,11 @@ inline void CGraphOrient<TSommet, TArc>::GROSupprimerSommet(int iNum)
             TSommet* pSommetDepart = GROGetSommet(pArc->ARCGetSommetDepart());
             TSommet* pSommetArrivee = GROGetSommet(pArc->ARCGetSommetArrivee());
 
-            if (pSommetDepart)  pSommetDepart->SOMSupprimerArcSortant(pArc);
+            if (pSommetDepart) { pSommetDepart->SOMSupprimerArcSortant(pArc); };
 
-            if (pSommetArrivee) pSommetArrivee->SOMSupprimerArcEntrant(pArc);
+            if (pSommetArrivee) { pSommetArrivee->SOMSupprimerArcEntrant(pArc); };
 
+            // Suppression
             delete pArc;
             itArc = vpARCGROListeArcs.erase(itArc);
         }
@@ -276,34 +260,34 @@ inline void CGraphOrient<TSommet, TArc>::GROSupprimerSommet(int iNum)
             ++itArc;
         }
     }
-
+    // Suppression du sommet à la fin
     delete pSommetASupprimer;
     mipSOMGROListeSommets.erase(itSommet);
 }
-
-// ----------------------------------------------------------------
 
 template<typename TSommet, typename TArc>
 inline void CGraphOrient<TSommet, TArc>::GROAfficher(ostream& os) const
 {
     os << "Sommets :\n";
-    for (const auto& paire : mipSOMGROListeSommets)
+    for (const auto& paire : mipSOMGROListeSommets) {
         os << "  Sommet " << paire.first << "\n";
+    }
 
     os << "Arcs :\n";
-    for (const TArc* pArc : vpARCGROListeArcs)
+    for (const TArc* pArc : vpARCGROListeArcs) {
         os << "  " << pArc->ARCGetSommetDepart()
         << " -> " << pArc->ARCGetSommetArrivee() << "\n";
+    }
 }
-
-// ----------------------------------------------------------------
 
 template<typename TSommet, typename TArc>
 inline void CGraphOrient<TSommet, TArc>::GROAjouterArc(int iDepart, int iArrivee)
 {
+    // Récupération des sommets
     TSommet* pDepart = GROGetSommet(iDepart);
     TSommet* pArrivee = GROGetSommet(iArrivee);
 
+    // Vérification OR
     if (!pDepart || !pArrivee)
     {
         CException except;
@@ -311,6 +295,7 @@ inline void CGraphOrient<TSommet, TArc>::GROAjouterArc(int iDepart, int iArrivee
         throw except;
     }
 
+    // Vérification de l'existence de cet arc
     for (TArc* pArc : vpARCGROListeArcs)
     {
         if (pArc->ARCGetSommetDepart() == iDepart &&
@@ -322,6 +307,7 @@ inline void CGraphOrient<TSommet, TArc>::GROAjouterArc(int iDepart, int iArrivee
         }
     }
 
+    // Création et ajout
     TArc* pNouvelArc = new TArc(iDepart, iArrivee);
     vpARCGROListeArcs.push_back(pNouvelArc);
 
@@ -329,11 +315,10 @@ inline void CGraphOrient<TSommet, TArc>::GROAjouterArc(int iDepart, int iArrivee
     pArrivee->SOMAjouterArcEntrant(pNouvelArc);
 }
 
-// ----------------------------------------------------------------
-
 template<typename TSommet, typename TArc>
 inline void CGraphOrient<TSommet, TArc>::GROSupprimerArc(int iDepart, int iArrivee)
 {
+    // Récupération de l'arc
     auto itArc = find_if(
         vpARCGROListeArcs.begin(),
         vpARCGROListeArcs.end(),
@@ -343,6 +328,7 @@ inline void CGraphOrient<TSommet, TArc>::GROSupprimerArc(int iDepart, int iArriv
         }
     );
 
+    // Vérification de l'existence
     if (itArc == vpARCGROListeArcs.end())
     {
         CException except;
@@ -350,32 +336,37 @@ inline void CGraphOrient<TSommet, TArc>::GROSupprimerArc(int iDepart, int iArriv
         throw except;
     }
 
+    // Conversion/Cast
     TArc* pArc = *itArc;
 
+    // Récupération des sommets
     TSommet* pDepart = GROGetSommet(iDepart);
     TSommet* pArrivee = GROGetSommet(iArrivee);
 
-    if (pDepart)  pDepart->SOMSupprimerArcSortant(pArc);
+    // Suppressions
+    if (pDepart) { pDepart->SOMSupprimerArcSortant(pArc); };
 
-    if (pArrivee) pArrivee->SOMSupprimerArcEntrant(pArc);
+    if (pArrivee) { pArrivee->SOMSupprimerArcEntrant(pArc); };
 
     delete pArc;
     vpARCGROListeArcs.erase(itArc);
 }
 
-// ----------------------------------------------------------------
-
 template<typename TSommet, typename TArc>
 inline CGraphOrient<TSommet, TArc>* CGraphOrient<TSommet, TArc>::GROInverser() const
 {
+    // Création du nouveau graphe
     CGraphOrient<TSommet, TArc>* pGrapheInverse = new CGraphOrient<TSommet, TArc>();
 
+    // Ajout des sommets
     for (const auto& paire : mipSOMGROListeSommets)
         pGrapheInverse->GROAjouterSommet(paire.first);
 
+    // Ajout des arcs dans le sens inverse
     for (const TArc* pArc : vpARCGROListeArcs)
         pGrapheInverse->GROAjouterArc(pArc->ARCGetSommetArrivee(),
             pArc->ARCGetSommetDepart());
 
     return pGrapheInverse;
 }
+#endif // CGRAPHORIENT_H
