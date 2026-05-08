@@ -153,6 +153,39 @@ Bilan : 42/42 tests réussis
 
 ## Choix de conception
 
+### Documentation et commentaires
+
+Chaque classe est précédée d'un en-tête documentaire indiquant son rôle, sa version, ses auteurs et sa date de création. Chaque méthode est documentée selon un format homogène inspiré des conventions vues en cours :
+
+```cpp
+/* *************************************************************
+* GROAjouterSommet
+* **************************************************************
+* Entrée  : Entier représentant le numéro du nouveau sommet
+* Nécessite : Le numéro ne doit pas déjà exister dans le graphe
+* Sortie  : Rien
+* Entraine : Lance CException(GROEXC_SOMMET_DEJA_PRESENTE) si doublon
+* **************************************************************/
+```
+
+Ce format systématique présente un double avantage : il force à réfléchir aux préconditions et aux effets de bord avant d'écrire le corps de la méthode, et il rend le code lisible par un tiers sans avoir à en lire l'implémentation. Les commentaires en ligne sont volontairement rares et réservés aux décisions non évidentes — comme la justification du `catch(...)` dans `GraphFileReader` ou l'explication du `this->` obligatoire dans les classes template dérivées.
+
+### Convention de nommage
+
+Nous avons appliqué la convention de nommage recommandée par le professeur de manière rigoureuse et homogène sur l'ensemble du projet. Chaque identifiant est préfixé d'un code indiquant son type et sa classe d'appartenance :
+
+| Préfixe | Signification | Exemple |
+|---|---|---|
+| `i` | Entier (`int`) | `iSOMNum`, `iNBSommets` |
+| `b` | Booléen | `bCondition` |
+| `s` | Chaîne de caractères | `sGFRFileName` |
+| `p` | Pointeur | `pSommetAAjouter`, `pArc` |
+| `vp` | Vecteur de pointeurs | `vpARCGROListeArcs` |
+| `mip` | Map `<int, pointeur>` | `mipSOMGROListeSommets` |
+| Préfixe classe | Appartenance à une classe | `GRO` pour `CGraphOrient`, `SOM` pour `CSommet`, `ARC` pour `CArc` |
+
+Cette convention présente un avantage concret lors du développement : en lisant `mipSOMGROListeSommets`, on sait immédiatement qu'il s'agit d'une `map<int, pointeur>` de sommets appartenant à `CGraphOrient`, sans avoir à consulter la déclaration. Elle réduit les erreurs de type et facilite la relecture croisée entre les deux membres du binôme.
+
 ### Classe `CArc`
 
 `CArc` représente un arc orienté entre deux sommets. C'est la structure de données la plus atomique de la librairie — elle ne porte que deux informations : le numéro du sommet de départ et le numéro du sommet d'arrivée. Elle sert de classe de base pour tout type d'arc personnalisé grâce au mécanisme de template.
@@ -615,36 +648,3 @@ void GFRExtraireArc(const string& sLigne, int& iDebut, int& iFin) const;
 - **Nécessite :** La ligne contient les clés `"Debut"` et `"Fin"`
 - **Sortie :** `iDebut` et `iFin` remplis par référence
 - **Entraîne :** Délègue deux appels à `GFRExtraireEntier`. Lance `CException(GFREXC_FORMAT_INVALIDE)` si l'un des deux champs est manquant ou malformé.
-
-### Documentation et commentaires
-
-Chaque classe est précédée d'un en-tête documentaire indiquant son rôle, sa version, ses auteurs et sa date de création. Chaque méthode est documentée selon un format homogène inspiré des conventions vues en cours :
-
-```cpp
-/* *************************************************************
-* GROAjouterSommet
-* **************************************************************
-* Entrée  : Entier représentant le numéro du nouveau sommet
-* Nécessite : Le numéro ne doit pas déjà exister dans le graphe
-* Sortie  : Rien
-* Entraine : Lance CException(GROEXC_SOMMET_DEJA_PRESENTE) si doublon
-* **************************************************************/
-```
-
-Ce format systématique présente un double avantage : il force à réfléchir aux préconditions et aux effets de bord avant d'écrire le corps de la méthode, et il rend le code lisible par un tiers sans avoir à en lire l'implémentation. Les commentaires en ligne sont volontairement rares et réservés aux décisions non évidentes — comme la justification du `catch(...)` dans `GraphFileReader` ou l'explication du `this->` obligatoire dans les classes template dérivées.
-
-### Convention de nommage
-
-Nous avons appliqué la convention de nommage recommandée par le professeur de manière rigoureuse et homogène sur l'ensemble du projet. Chaque identifiant est préfixé d'un code indiquant son type et sa classe d'appartenance :
-
-| Préfixe | Signification | Exemple |
-|---|---|---|
-| `i` | Entier (`int`) | `iSOMNum`, `iNBSommets` |
-| `b` | Booléen | `bCondition` |
-| `s` | Chaîne de caractères | `sGFRFileName` |
-| `p` | Pointeur | `pSommetAAjouter`, `pArc` |
-| `vp` | Vecteur de pointeurs | `vpARCGROListeArcs` |
-| `mip` | Map `<int, pointeur>` | `mipSOMGROListeSommets` |
-| Préfixe classe | Appartenance à une classe | `GRO` pour `CGraphOrient`, `SOM` pour `CSommet`, `ARC` pour `CArc` |
-
-Cette convention présente un avantage concret lors du développement : en lisant `mipSOMGROListeSommets`, on sait immédiatement qu'il s'agit d'une `map<int, pointeur>` de sommets appartenant à `CGraphOrient`, sans avoir à consulter la déclaration. Elle réduit les erreurs de type et facilite la relecture croisée entre les deux membres du binôme.
