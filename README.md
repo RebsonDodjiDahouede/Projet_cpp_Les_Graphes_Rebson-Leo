@@ -351,7 +351,7 @@ void SOMSupprimerArcSortant(CArc* pArc);
 - **Sortie :** Rien
 - **Entraîne :** Retire le pointeur de `vpSOMArcSortants`
 
-### 2.5 Classe `CGraphOrient<TSommet, TArc>`
+### Classe `CGraphOrient<TSommet, TArc>`
 
 `CGraphOrient` est la classe centrale de la librairie. Elle orchestre l'ensemble des opérations sur le graphe orienté et est la seule responsable de la cohérence entre ses trois composantes : la `map` des sommets, le vecteur des arcs, et les listes locales de chaque sommet. Deux `static_assert` garantissent à la compilation que `TSommet` dérive bien de `CSommet` et `TArc` de `CArc`, rendant toute instanciation illégale impossible sans message d'erreur explicite.
 
@@ -365,18 +365,6 @@ La copie d'un graphe est explicitement interdite (`= delete`) pour prévenir les
 |---|---|---|
 | `mipSOMGROListeSommets` | `map<int, TSommet*>` | Dictionnaire associant chaque numéro de sommet à son objet |
 | `vpARCGROListeArcs` | `vector<TArc*>` | Liste de tous les arcs du graphe |
-
-***
-
-#### Codes d'exception
-
-| Constante | Valeur | Situation déclenchante |
-|---|---|---|
-| `GROEXC_SOMMET_DEJA_PRESENTE` | 2 | Ajout d'un sommet dont le numéro existe déjà |
-| `GROEXC_SOMMET_ABSENT` | 3 | Opération sur un sommet inexistant |
-| `GROEXC_SOMMET_ARC_ABSENT` | 4 | Ajout d'un arc avec un sommet inexistant |
-| `GROEXC_ARC_DEJA_PRESENT` | 5 | Ajout d'un arc déjà présent |
-| `GROEXC_ARC_ABSENT` | 6 | Suppression d'un arc inexistant |
 
 ***
 
@@ -563,17 +551,6 @@ Nous aurions pu intégrer la lecture de fichier directement dans `CGraphOrient` 
 | Attribut | Type | Rôle |
 |---|---|---|
 | `sGFRFileName` | `string` | Chemin vers le fichier texte du graphe |
-
-***
-
-#### Codes d'exception
-
-| Constante | Valeur | Situation déclenchante |
-|---|---|---|
-| `GFREXC_FICHIER_INTROUVABLE` | 10 | Le fichier ne peut pas être ouvert |
-| `GFREXC_FORMAT_INVALIDE` | 11 | Une ligne ne respecte pas le format attendu |
-| `GFREXC_NB_SOMMETS_INCOHERENT` | 12 | Le nombre de sommets lus diffère de `NBSommets` déclaré |
-| `GFREXC_NB_ARCS_INCOHERENT` | 13 | Le nombre d'arcs lus diffère de `NBArcs` déclaré |
 
 ***
 
