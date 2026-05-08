@@ -1,4 +1,4 @@
-# Librairie Graphes — C++17
+# Projet tutoré : Librairie générique Graphes C++
 
 Projet COO1 — Polytech Tours 3A DI  
 Leo NOUHOUANG · Rebson Dodji DAHOUEDE
