@@ -123,6 +123,24 @@ delete pGraphe;
 
 ***
 
+## Créer un graphe depuis un fichier
+
+Les tests sont intégrés dans `main.cpp`. Voici comment procéder :
+
+1. **Déposer le fichier formaté** (`.txt`) dans le dossier du projet, là où se trouve le fichier `.sln`.
+2. **Compiler et lancer l'exécutable** depuis Visual Studio (configuration Release x64).
+3. **Saisir le nom du fichier** lorsque le programme le demande, en incluant l'extension `.txt`
+   (exemple : `graph.txt`), puis appuyer sur **Entrée**.
+
+> ATTENTION ! Si le fichier est absent du dossier ou si le nom est mal saisi, le programme lèvera une
+> `CException(GFREXC_FICHIER_INTROUVABLE)` et s'arrêtera.
+
+Le programme affiche ensuite automatiquement les résultats des tests unitaires :
+
+Les tests sont intégrés dans `main.cpp`. Compiler et exécuter le projet affiche automatiquement les résultats :
+
+***
+
 ## Codes d'erreur — référence rapide
 
 | Code | Constante | Classe | Déclencheur |
@@ -138,18 +156,6 @@ delete pGraphe;
 | 13 | `GFREXC_NB_ARCS_INCOHERENT` | `GraphFileReader` | Compteur arcs incorrect |
 
 ***
-
-## Lancer les tests
-
-Les tests sont intégrés dans `main.cpp`. Compiler et exécuter le projet affiche automatiquement les résultats :
-
-```
-===== TESTS CArc =====
-[OK]  CArc() : sommet de depart initialise a 0
-[OK]  CArc(3,7) : sommet de depart = 3
-...
-Bilan : 42/42 tests réussis
-```
 
 ## Choix de conception
 
