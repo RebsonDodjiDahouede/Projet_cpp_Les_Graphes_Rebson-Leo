@@ -125,8 +125,6 @@ delete pGraphe;
 
 ## Créer un graphe depuis un fichier
 
-Les tests sont intégrés dans `main.cpp`. Voici comment procéder :
-
 1. **Déposer le fichier formaté** (`.txt`) dans le dossier du projet, là où se trouve le fichier `.sln`.
 2. **Compiler et lancer l'exécutable** depuis Visual Studio (configuration Release x64).
 3. **Saisir le nom du fichier** lorsque le programme le demande, en incluant l'extension `.txt`
