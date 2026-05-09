@@ -392,8 +392,6 @@ void SOMSupprimerArcSortant(CArc* pArc);
 
 `CGraphOrient` est la classe centrale de la librairie. Elle orchestre l'ensemble des opérations sur le graphe orienté et est la seule responsable de la cohérence entre ses trois composantes : la `map` des sommets, le vecteur des arcs, et les listes locales de chaque sommet. Deux `static_assert` garantissent à la compilation que `TSommet` dérive bien de `CSommet` et `TArc` de `CArc`, rendant toute instanciation illégale impossible sans message d'erreur explicite.
 
-La copie d'un graphe est explicitement interdite (`= delete`) pour prévenir les doubles libérations mémoire dues au partage de pointeurs.
-
 ***
 
 #### Attributs protégés
