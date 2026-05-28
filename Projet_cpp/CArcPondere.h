@@ -23,6 +23,8 @@ public:
     // CONSTRUCTEURS
     CArcPondere() : CArc(), iARCPoids(0) {}
 
+    CArcPondere(int iDepart, int iArrivee) : CArc(iDepart, iArrivee), iARCPoids(0) {}
+
     CArcPondere(int iDepart, int iArrivee, int iPoids) : CArc(iDepart, iArrivee), iARCPoids(iPoids) {}
 
     virtual ~CArcPondere() = default;

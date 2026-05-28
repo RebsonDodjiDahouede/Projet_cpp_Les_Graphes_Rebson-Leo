@@ -1,7 +1,7 @@
 #include "CGraphPondere.h"
 
 
-inline void CGraphPondere::CGRAjouterAretePonderee(int iNumA, int iNumB, int iPoids)
+void CGraphPondere::CGRAjouterAretePonderee(int iNumA, int iNumB, int iPoids)
 {
     CGraph<CSommet, CArcPondere>::CGRAjouterArete(iNumA, iNumB);
 
@@ -17,7 +17,7 @@ inline void CGraphPondere::CGRAjouterAretePonderee(int iNumA, int iNumB, int iPo
 }
 
 
-inline CGraphPondere* CGraphPondere::GRPPrim() const
+CGraphPondere* CGraphPondere::GRPPrim() const
 {
     CGraphPondere* pACM = new CGraphPondere();
 
@@ -81,7 +81,7 @@ inline CGraphPondere* CGraphPondere::GRPPrim() const
     return pACM;
 }
 
-inline int CGraphPondere::GRPGetPoidsTotal() const
+int CGraphPondere::GRPGetPoidsTotal() const
 {
     int iSomme = 0;
 
@@ -94,7 +94,7 @@ inline int CGraphPondere::GRPGetPoidsTotal() const
     return iSomme;
 }
 
-inline void CGraphPondere::GROAfficher(ostream& os) const
+void CGraphPondere::GROAfficher(ostream& os) const
 {
     os << "Sommets :\n";
     for (const auto& paire : this->mipSOMGROListeSommets)

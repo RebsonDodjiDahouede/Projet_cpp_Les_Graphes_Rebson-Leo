@@ -1,7 +1,8 @@
 #include <iostream>
 #include <string>
-#include "CGraph.h"   // inclut CGraphOrient.h, CSommet.h et CArc.h
+#include "CGraphPondere.h"   // inclut CGraph.h, CGraphOrient.h, CSommet.h, CArcPondere.h et CArc.h
 #include "GraphFileReader.h"
+
 
 using namespace std;
 
@@ -297,6 +298,35 @@ static void TesterCGraph()
     graphe.GROAfficher();
 }
 
+static void TesterCGraphPondere()
+{
+    cout << "\n===== TESTS CGraphPondere / Prim =====" << endl;
+
+    CGraphPondere graphe;
+    graphe.GROAjouterSommet(1);
+    graphe.GROAjouterSommet(2);
+    graphe.GROAjouterSommet(3);
+    graphe.GROAjouterSommet(4);
+
+    graphe.CGRAjouterAretePonderee(1, 2, 4);
+    graphe.CGRAjouterAretePonderee(1, 3, 2);
+    graphe.CGRAjouterAretePonderee(2, 3, 1);
+    graphe.CGRAjouterAretePonderee(2, 4, 5);
+    graphe.CGRAjouterAretePonderee(3, 4, 3);
+
+    CGraphPondere* pACM = graphe.GRPPrim();
+
+    cout << "\n--- Graphe original ---" << endl;
+    graphe.GROAfficher();
+
+    cout << "\n--- Arbre couvrant minimal ---" << endl;
+    pACM->GROAfficher();
+
+    cout << "\nPoids total ACM = " << pACM->GRPGetPoidsTotal() << endl;
+
+    delete pACM;
+}
+
 static bool MainTestFunction() 
 {
     cout << "===== LANCEMENT DES TESTS =====\n";
@@ -309,6 +339,7 @@ static bool MainTestFunction()
         TesterCGraphOrient();
         DemonstrationGraphe();
         TesterCGraph();
+        TesterCGraphPondere();
     }
     catch (CException& e)
     {
@@ -328,26 +359,27 @@ static bool MainTestFunction()
 // ================================================================
 int main()
 {
-    string sNomFichier;
+    //string sNomFichier;
 
-    cout << "Entrez le nom du fichier graphe : ";
-    cin >> sNomFichier;
+    //cout << "Entrez le nom du fichier graphe : ";
+    //cin >> sNomFichier;
 
     try
     {
-        GraphFileReader reader(sNomFichier);
-        CGraphOrient<CSommet, CArc>* pGraphe = reader.GFRCreateGraphFromTextFile();
+        //GraphFileReader reader(sNomFichier);
+        //CGraphOrient<CSommet, CArc>* pGraphe = reader.GFRCreateGraphFromTextFile();
 
-        cout << "\n--- Graphe original ---\n";
-        pGraphe->GROAfficher();
+        //cout << "\n--- Graphe original ---\n";
+        //pGraphe->GROAfficher();
 
-        CGraphOrient<CSommet, CArc>* pInverse = pGraphe->GROInverser();
+        //CGraphOrient<CSommet, CArc>* pInverse = pGraphe->GROInverser();
 
-        cout << "\n--- Graphe inverse ---\n";
-        pInverse->GROAfficher();
+        //cout << "\n--- Graphe inverse ---\n";
+        //pInverse->GROAfficher();
 
-        delete pInverse;
-        delete pGraphe;
+        //delete pInverse;
+        //delete pGraphe;
+        MainTestFunction();
     }
     catch (CException& e)
     {
