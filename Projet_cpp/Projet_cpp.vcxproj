@@ -128,6 +128,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="CArc.cpp" />
+    <ClCompile Include="CArcPondere.cpp" />
     <ClCompile Include="CGraph.cpp" />
     <ClCompile Include="CGraphOrient.cpp" />
     <ClCompile Include="CSommet.cpp" />
@@ -136,6 +137,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CArc.h" />
+    <ClInclude Include="CArcPondere.h" />
     <ClInclude Include="CException.h" />
     <ClInclude Include="CGraph.h" />
     <ClInclude Include="CGraphOrient.h" />
