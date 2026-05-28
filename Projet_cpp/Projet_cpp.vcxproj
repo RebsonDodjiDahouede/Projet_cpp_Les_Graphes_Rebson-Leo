@@ -131,6 +131,7 @@
     <ClCompile Include="CArcPondere.cpp" />
     <ClCompile Include="CGraph.cpp" />
     <ClCompile Include="CGraphOrient.cpp" />
+    <ClCompile Include="CGraphPondere.cpp" />
     <ClCompile Include="CSommet.cpp" />
     <ClCompile Include="GraphFileReader.cpp" />
     <ClCompile Include="Main.cpp" />
@@ -141,6 +142,7 @@
     <ClInclude Include="CException.h" />
     <ClInclude Include="CGraph.h" />
     <ClInclude Include="CGraphOrient.h" />
+    <ClInclude Include="CGraphPondere.h" />
     <ClInclude Include="CSommet.h" />
     <ClInclude Include="GraphFileReader.h" />
   </ItemGroup>
